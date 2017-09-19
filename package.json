@@ -1,0 +1,54 @@
+{
+	"name": "deuce",
+	"version": "1.0.0",
+	"main": "dist/deuce.js",
+	"license": "MIT",
+	"devDependencies": {
+		"@std/esm": "^0.10.1",
+		"jsdom": "^11.2.0",
+		"jsdom-global": "^3.0.2",
+		"jshint": "^2.9.5",
+		"nyc": "^11.2.1",
+		"prettier": "^1.7.0",
+		"rollup": "^0.50.0",
+		"rollup-plugin-commonjs": "^8.2.1",
+		"sinon": "^3.2.1",
+		"size-limit": "^0.11.4",
+		"tap-spec": "^4.1.1",
+		"tape": "^4.8.0"
+	},
+	"scripts": {
+		"build": "rollup -c",
+		"jshint": "jshint ./src",
+		"prettier": "prettier  -l \"src/**/*.js\"",
+		"size": "size-limit",
+		"tap": "tape -r @std/esm \"tests/**/*.test.js\" | tap-spec",
+		"test": "nyc npm run tap"
+	},
+	"jshintConfig": {
+		"browser": true,
+		"esversion": 6,
+		"undef": true,
+		"unused": true
+	},
+	"prettier": {
+		"bracketSpacing": false,
+		"singleQuote": true,
+		"tabWidth": 4,
+		"useTabs": true
+	},
+	"@std/esm": {
+		"esm": "all",
+		"cjs": true
+	},
+	"nyc": {
+		"reporter": ["lcov", "text"],
+		"require": ["@std/esm"]
+	},
+	"size-limit": [
+		{
+			"path": "./dist/index.js",
+			"limit": "1 KB"
+		}
+	]
+}
