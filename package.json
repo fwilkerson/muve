@@ -47,7 +47,7 @@
 	},
 	"size-limit": [
 		{
-			"path": "./dist/index.js",
+			"path": "./dist/deuce.js",
 			"limit": "1 KB"
 		}
 	]
