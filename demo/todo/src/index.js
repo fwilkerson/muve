@@ -1,6 +1,6 @@
 import deuce, {dispatcher, h} from '../lib/deuce';
 
-let iterator = 1;
+/* MODEL */
 
 let model = {
 	todo: '',
@@ -8,22 +8,71 @@ let model = {
 	visible: 'All'
 };
 
-const getVisibleTodos = model => {
-	switch (model.visible) {
-		case 'All':
-			return model.todos;
-		case 'Complete':
-			return model.todos.filter(x => x.completed);
-		default:
-			return model.todos.filter(x => !x.completed);
-	}
-};
+/* VIEW */
+
+const view = model => (
+	<Layout>
+		<h2 class="title">Deuce Todos</h2>
+		<input
+			type="text"
+			class="input is-large"
+			value={model.todo}
+			onInput={e => updateTodo(e.target.value)}
+			onKeyDown={e => e.keyCode === 13 && addTodo(e.target.value)}
+		/>
+		<div class="has-text-right">
+			<FilterLink text="All" visible={model.visible} />
+			<FilterLink text="Incomplete" visible={model.visible} />
+			<FilterLink text="Complete" visible={model.visible} />
+		</div>
+		<hr style="background-color: transparent" />
+		{getVisibleTodos(model).map(todo => <Todo {...todo} />)}
+	</Layout>
+);
+
+const Layout = ({children}) => (
+	<section class="section">
+		<div class="container">
+			<div class="columns">
+				<div class="column is-one-quarter" />
+				<div class="column is-half">{children}</div>
+			</div>
+		</div>
+	</section>
+);
+
+const FilterLink = ({text, visible}) => (
+	<a
+		class={visible === text ? 'has-text-weight-bold' : ''}
+		style="margin: 0 0.25em;"
+		onClick={() => updateVisible(text)}
+	>
+		{text}
+	</a>
+);
+
+const Todo = ({id, text, completed}) => (
+	<div class="notification is-primary">
+		<button class="delete" onClick={() => deleteTodo(id)} />
+		<a
+			class="is-size-5"
+			style={`text-decoration: ${completed ? 'line-through' : 'none'}`}
+			onClick={() => toggleTodo(id)}
+		>
+			{text}
+		</a>
+	</div>
+);
+
+/* UPDATE */
 
 const dispatch = dispatcher(model);
 
 function updateTodo(value) {
 	dispatch(() => ({todo: value}));
 }
+
+let iterator = 1;
 
 function addTodo(value) {
 	iterator += 1;
@@ -48,63 +97,24 @@ function toggleTodo(id) {
 	}));
 }
 
-const updateVisible = value => dispatch(() => ({visible: value}));
+function updateVisible(value) {
+	dispatch(() => ({visible: value}));
+}
 
-const Layout = props => (
-	<section class="section">
-		<div class="container">
-			<div class="columns">
-				<div class="column is-one-quarter" />
-				<div class="column is-half">{props.children}</div>
-			</div>
-		</div>
-	</section>
-);
+/* UTILITIES */
 
-const FilterLink = props => (
-	<a
-		class={`${props.visible === props.text ? 'has-text-weight-bold' : ''}`}
-		style="margin: 0 0.25em;"
-		onClick={() => updateVisible(props.text)}
-	>
-		{props.text}
-	</a>
-);
+function getVisibleTodos(model) {
+	switch (model.visible) {
+		case 'All':
+			return model.todos;
+		case 'Complete':
+			return model.todos.filter(x => x.completed);
+		case 'Incomplete':
+		default:
+			return model.todos.filter(x => !x.completed);
+	}
+}
 
-const Todos = props =>
-	props.todos.map(todo => (
-		<div class="notification is-primary">
-			<button class="delete" onClick={() => deleteTodo(todo.id)} />
-			<a
-				class="is-size-5"
-				style={`text-decoration: ${todo.completed
-					? 'line-through'
-					: 'none'}`}
-				onClick={() => toggleTodo(todo.id)}
-			>
-				{todo.text}
-			</a>
-		</div>
-	));
-
-const view = model => (
-	<Layout>
-		<h2 class="title">Deuce Todos</h2>
-		<input
-			type="text"
-			class="input is-large"
-			value={model.todo}
-			onInput={e => updateTodo(e.target.value)}
-			onKeyDown={e => e.keyCode === 13 && addTodo(e.target.value)}
-		/>
-		<div class="has-text-right">
-			<FilterLink visible={model.visible} text="All" />
-			<FilterLink visible={model.visible} text="Incomplete" />
-			<FilterLink visible={model.visible} text="Complete" />
-		</div>
-		<hr style="background-color: transparent" />
-		<Todos todos={getVisibleTodos(model)} />
-	</Layout>
-);
+/* RENDER */
 
 deuce(view, model, document.getElementById('root'));
