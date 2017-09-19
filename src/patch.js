@@ -2,11 +2,14 @@ import createNode from './createNode';
 import setAttribute from './setAttribute';
 
 function patch(node, curr, prev, index) {
-	const child = node.childNodes[index || 0];
+	const child =
+		node.childNodes[index || 0] ||
+		node.childNodes[node.childNodes.length - 1];
+
 	if (!prev && curr) {
 		node.appendChild(createNode(curr));
 	} else if (!curr) {
-		if (child) node.removeChild(child);
+		node.removeChild(child);
 	} else if (
 		typeof curr !== typeof prev ||
 		(typeof curr === 'string' && curr !== prev) ||
