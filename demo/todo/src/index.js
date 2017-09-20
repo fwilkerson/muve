@@ -66,10 +66,10 @@ const Todo = ({id, text, completed}) => (
 
 /* UPDATE */
 
-const dispatch = dispatcher(model);
+const dispatch = dispatcher(model, (type, slice) => console.log(type, slice));
 
 function updateTodo(value) {
-	dispatch(() => ({todo: value}));
+	dispatch(() => ({todo: value}), 'UPDATE_TODO');
 }
 
 let iterator = 1;
