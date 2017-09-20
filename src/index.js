@@ -25,7 +25,7 @@ export function dispatcher(model, subscriber) {
 			emitter.emit(DISPATCH, model);
 			if (subscriber) subscriber(name || 'anonymous', piece);
 		},
-		getModel: () => model
+		getModel: () => Object.assign({}, model)
 	};
 }
 
