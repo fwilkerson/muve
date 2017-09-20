@@ -2,7 +2,7 @@ const {resolve} = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: resolve(__dirname, 'src', 'index.js'),
+	entry: resolve(__dirname, 'src', 'main.js'),
 
 	output: {
 		filename: 'bundle.js',

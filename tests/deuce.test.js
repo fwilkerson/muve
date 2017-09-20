@@ -19,9 +19,9 @@ test('deuce renders without state', t => {
 	t.end();
 });
 
-const counterDispatch = dispatcher({count: 0});
-const increment = () => counterDispatch(model => ({count: model.count + 1}));
-const decrement = () => counterDispatch(model => ({count: model.count - 1}));
+const {dispatch} = dispatcher({count: 0});
+const increment = () => dispatch(model => ({count: model.count + 1}));
+const decrement = () => dispatch(model => ({count: model.count - 1}));
 
 const view = model => ({
 	type: 'div',
@@ -138,7 +138,7 @@ test('stress test', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.concat(data)};
-	const dispatch = dispatcher(model);
+	const {dispatch} = dispatcher(model);
 
 	const actions = {
 		updateResults: () =>
@@ -171,7 +171,10 @@ test('remove/replace/append test', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.slice(0, 5)};
-	const dispatch = dispatcher(model);
+	const {dispatch} = dispatcher(model, (name, piece) => {
+		t.equal(name, 'anonymous', 'default name is returned from subscribe');
+		t.ok(piece, 'piece of model being updated is returned');
+	});
 	const actions = {
 		updateResults: () => dispatch(() => ({results: data.slice(3, 8)}))
 	};
@@ -210,7 +213,7 @@ test('remove all and append', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.slice(0, 5)};
-	const dispatch = dispatcher(model);
+	const {dispatch, getModel} = dispatcher(model);
 	const actions = {
 		updateResults: () => dispatch(() => ({results: data.slice(6, 15)}))
 	};
@@ -233,6 +236,12 @@ test('remove all and append', function(t) {
 
 	links = document.querySelectorAll('#root ul li a');
 	listings = data.slice(6, 15);
+
+	t.deepEqual(
+		getModel(),
+		{results: listings},
+		'getModel returns the correct state'
+	);
 
 	links.forEach(link => {
 		t.ok(

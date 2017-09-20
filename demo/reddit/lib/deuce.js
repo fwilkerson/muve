@@ -96,11 +96,13 @@ function deuce(view, init, target) {
 	patch(target, prev);
 }
 
-function dispatcher(model) {
+function dispatcher(model, subscriber) {
+	let piece;
 	return {
-		dispatch: update => {
-			model = Object.assign({}, model, update(model));
+		dispatch: (update, name) => {
+			model = Object.assign({}, model, (piece = update(model)));
 			emitter.emit(DISPATCH, model);
+			if (subscriber) subscriber(name || 'anonymous', piece);
 		},
 		getModel: () => model
 	};

@@ -17,10 +17,15 @@ function deuce(view, init, target) {
 	patch(target, prev);
 }
 
-export function dispatcher(model) {
-	return update => {
-		model = Object.assign({}, model, update(model));
-		emitter.emit(DISPATCH, model);
+export function dispatcher(model, subscriber) {
+	let piece;
+	return {
+		dispatch: (update, name) => {
+			model = Object.assign({}, model, (piece = update(model)));
+			emitter.emit(DISPATCH, model);
+			if (subscriber) subscriber(name || 'anonymous', piece);
+		},
+		getModel: () => model
 	};
 }
 
