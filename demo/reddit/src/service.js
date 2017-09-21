@@ -3,8 +3,11 @@ const lastIds = {};
 const mapListing = listing => {
 	return new Promise(res => {
 		const mapped = listing.map(x => ({
-			id: `${x.kind}_${x.data.id}`,
+			id: x.data.id,
+			author: x.data.author,
+			comments: x.data.num_comments,
 			created: x.data.created,
+			score: x.data.score,
 			subreddit: x.data.subreddit,
 			title: x.data.title,
 			url: x.data.url
@@ -18,10 +21,10 @@ const mapListing = listing => {
 
 export default {
 	get(sub, type, more) {
-		let queryString = `/${type}.json?limit=15`;
+		let queryString = `/${type}.json?limit=10`;
 		if (more) {
 			const id = lastIds[sub.slice(sub.indexOf('/') + 1)];
-			if (id) queryString = `/${type}.json?after=${id}&limit=15`;
+			if (id) queryString = `/${type}.json?after=${id}&limit=10`;
 		}
 
 		return fetch(uri + sub + queryString)

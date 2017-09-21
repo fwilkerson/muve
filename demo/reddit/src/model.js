@@ -11,7 +11,8 @@ export const category = {
 export const model = {
 	articles: [],
 	type: category.hot,
-	isBusy: true
+	isBusy: false,
+	route: {}
 };
 
 const {dispatch, getModel} = dispatcher(model, logUpdates);
@@ -31,6 +32,16 @@ export function updateType(type) {
 	if (model.type !== type) {
 		fetchArticles(type);
 	}
+}
+
+export function goToComments(id) {
+	const route = {path: '/comments', id};
+	history.pushState(route, `/comments/${id}`, `/comments/${id}`);
+	dispatch(() => ({route}), 'GO_TO_COMMENTS');
+}
+
+export function registerRouter(event) {
+	dispatch(() => ({route: event.state || {path: '/'}}));
 }
 
 function logUpdates(name, piece) {

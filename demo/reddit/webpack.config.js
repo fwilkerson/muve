@@ -5,7 +5,7 @@ module.exports = {
 	entry: resolve(__dirname, 'src', 'main.js'),
 
 	output: {
-		filename: 'bundle.js',
+		filename: 'static/js/bundle.js',
 		path: resolve(__dirname, 'public'),
 		publicPath: '/'
 	},
@@ -16,6 +16,10 @@ module.exports = {
 
 	devServer: {
 		contentBase: resolve(__dirname, 'public'),
+		compress: true,
+		historyApiFallback: {
+			disableDotRules: true
+		},
 		publicPath: '/'
 	},
 
