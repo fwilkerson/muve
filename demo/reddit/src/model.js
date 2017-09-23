@@ -28,7 +28,7 @@ export function fetchArticles(type) {
 
 export function updateType(type) {
 	const model = getModel();
-	dispatch(() => ({type}), 'UPDATE_TYPE');
+	dispatch(() => ({type}));
 	if (model.type !== type) {
 		fetchArticles(type);
 	}

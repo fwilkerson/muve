@@ -102,7 +102,7 @@ function dispatcher(model, subscriber) {
 		dispatch: (update, name) => {
 			model = Object.assign({}, model, (piece = update(model)));
 			emitter.emit(DISPATCH, model);
-			if (subscriber) subscriber(name || 'anonymous', piece);
+			if (subscriber && name) subscriber(name, piece);
 		},
 		getModel: () => model
 	};
