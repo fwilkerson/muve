@@ -172,11 +172,12 @@ test('remove/replace/append test', function(t) {
 
 	const model = {results: data.slice(0, 5)};
 	const {dispatch} = dispatcher(model, (name, piece) => {
-		t.equal(name, 'anonymous', 'default name is returned from subscribe');
+		t.equal(name, 'UPDATE_RESULTS', 'name is returned from subscribe');
 		t.ok(piece, 'piece of model being updated is returned');
 	});
 	const actions = {
-		updateResults: () => dispatch(() => ({results: data.slice(3, 8)}))
+		updateResults: () =>
+			dispatch(() => ({results: data.slice(3, 8)}), 'UPDATE_RESULTS')
 	};
 	deuce(Listings(actions), model, document.querySelector('#root'));
 
