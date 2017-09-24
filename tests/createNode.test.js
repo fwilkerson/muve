@@ -5,7 +5,7 @@ import createNode from '../src/createNode';
 
 test('can create node from vnode', t => {
 	const dispose = jsdom();
-	const vnode = {type: 'div'};
+	const vnode = {type: 'div', attributes: {}, children: []};
 	const node = createNode(vnode);
 
 	t.ok(node, 'node has value');
@@ -20,7 +20,8 @@ test('can create vnode w/ children', t => {
 	const dispose = jsdom();
 	const vnode = {
 		type: 'div',
-		children: [{type: 'h2', children: 'Hello, World'}]
+		attributes: {},
+		children: [{type: 'h2', attributes: {}, children: ['Hello, World']}]
 	};
 	const node = createNode(vnode);
 

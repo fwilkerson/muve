@@ -4,36 +4,24 @@ import sinon from 'sinon';
 
 import patch from '../src/patch';
 
-test('can patch vnode without children', t => {
-	const dispose = jsdom(`<div id="root"></div>`);
-	const node = document.querySelector('#root');
-	const vnode = {type: 'div'};
-
-	patch(node, vnode);
-
-	t.ok(document.querySelector('#root>div'), 'node without children rendered');
-
-	patch(node, {type: 'div', attributes: {id: 'test'}}, vnode);
-
-	t.ok(document.querySelector('#test'), 'patched node without children');
-
-	dispose();
-	t.end();
-});
-
 test('can add child <em>!</em> to h2', t => {
 	const dispose = jsdom(`<div id="root"></div>`);
 	const node = document.querySelector('#root');
 	const vnode = {
 		type: 'div',
-		children: [{type: 'h2', children: 'Hello, World'}]
+		attributes: {},
+		children: [{type: 'h2', attributes: {}, children: ['Hello, World']}]
 	};
 	const update = {
 		type: 'div',
+		attributes: {},
 		children: [
 			{
 				type: 'h2',
-				children: ['Hello, World', {type: 'em', children: '!'}]
+				children: [
+					'Hello, World',
+					{type: 'em', attributes: {}, children: ['!']}
+				]
 			}
 		]
 	};
@@ -69,15 +57,24 @@ test('can replace h2 with ul', t => {
 	const node = document.querySelector('#root');
 	const vnode = {
 		type: 'div',
-		children: [{type: 'h2', children: 'Hello, World'}]
+		attributes: {},
+		children: [{type: 'h2', attributes: {}, children: ['Hello, World']}]
 	};
 	const update = {
 		type: 'div',
+		attributes: {},
 		children: [
 			{
 				type: 'ul',
+				attributes: {},
 				children: [
-					{type: 'li', children: {type: 'a', children: 'click me!'}}
+					{
+						type: 'li',
+						attributes: {},
+						children: [
+							{type: 'a', attributes: {}, children: ['click me!']}
+						]
+					}
 				]
 			}
 		]
@@ -103,44 +100,6 @@ test('can replace h2 with ul', t => {
 	t.end();
 });
 
-test('can handle conditional render', t => {
-	const dispose = jsdom(`<div id="root"></div>`);
-	const node = document.querySelector('#root');
-	const vnode = {
-		type: 'ul',
-		children: [
-			{type: 'li', children: '1'},
-			null && {type: 'li', children: '2'}
-		]
-	};
-	const updated = {
-		type: 'ul',
-		children: [
-			{type: 'li', children: '1'},
-			true && {type: 'li', children: '2'}
-		]
-	};
-
-	patch(node, vnode);
-
-	t.equal(
-		document.querySelector('#root ul').children.length,
-		1,
-		'ignored the null child'
-	);
-
-	patch(node, updated, vnode);
-
-	t.equal(
-		document.querySelector('#root ul').children.length,
-		2,
-		'patched the second li in'
-	);
-
-	dispose();
-	t.end();
-});
-
 test('can add & remove onclick', t => {
 	const dispose = jsdom(`<div id="root"></div>`);
 	const node = document.querySelector('#root');
@@ -152,17 +111,18 @@ test('can add & remove onclick', t => {
 			{
 				type: 'button',
 				attributes: {onClick: callback},
-				children: 'click me!'
+				children: ['click me!']
 			}
 		]
 	};
 	const update = {
 		type: 'div',
+		attributes: {},
 		children: [
 			{
 				type: 'button',
 				attributes: {onClick: null},
-				children: 'click me!'
+				children: ['click me!']
 			}
 		]
 	};

@@ -28,6 +28,7 @@
 	"jshintConfig": {
 		"browser": true,
 		"esversion": 6,
+		"maxcomplexity": 10,
 		"undef": true,
 		"unused": true
 	},

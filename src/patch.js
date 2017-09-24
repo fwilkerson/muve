@@ -18,7 +18,7 @@ function patch(node, curr, prev, index) {
 		node.replaceChild(createNode(curr), child);
 	} else if (curr.type) {
 		patchAttributes(child, curr.attributes, prev.attributes);
-		curr.children = [].concat(curr.children || []);
+		curr.children = [].concat(curr.children);
 		const length = Math.max(curr.children.length, prev.children.length);
 		for (let i = 0; i < length; i++) {
 			patch(child, curr.children[i], prev.children[i], i);
@@ -27,8 +27,6 @@ function patch(node, curr, prev, index) {
 }
 
 function patchAttributes(node, curr, prev) {
-	curr = curr || {};
-	prev = prev || {};
 	const attr = Object.assign({}, prev, curr);
 	Object.keys(attr).forEach(k => setAttribute(node, k, curr[k], prev[k]));
 }

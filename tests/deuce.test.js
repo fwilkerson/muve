@@ -7,7 +7,7 @@ import data from './data/listings.json';
 test('deuce renders without state', t => {
 	const dispose = jsdom();
 
-	deuce(() => ({type: 'h2', children: 'Hello, World'}));
+	deuce(() => ({type: 'h2', attributes: {}, children: ['Hello, World']}));
 
 	t.equal(
 		document.querySelector('h2').innerHTML,
@@ -25,17 +25,18 @@ const decrement = () => dispatch(model => ({count: model.count - 1}));
 
 const view = model => ({
 	type: 'div',
+	attributes: {},
 	children: [
-		{type: 'h2', children: `${model.count}`},
+		{type: 'h2', attributes: {}, children: [`${model.count}`]},
 		{
 			type: 'button',
 			attributes: {onClick: increment},
-			children: '+'
+			children: ['+']
 		},
 		{
 			type: 'button',
 			attributes: {onClick: decrement},
-			children: '-'
+			children: ['-']
 		}
 	]
 });
@@ -65,6 +66,7 @@ test('counter', t => {
 const Listings = actions => model => {
 	return {
 		type: 'div',
+		attributes: {},
 		children: [Actions(model, actions), List(model)]
 	};
 };
