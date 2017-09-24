@@ -5,4 +5,6 @@ import view from './view';
 
 deuce(view, model, document.getElementById('root'));
 
-fetchArticles(model.type);
+if (model.route.path === '/type') {
+	fetchArticles(model.type);
+}

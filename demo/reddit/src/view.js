@@ -6,7 +6,7 @@ const view = model => (
 	<main>
 		<Header active={model.type} />
 		<Router model={model}>
-			<Route exact path="/" view={home} />
+			<Route path="/type/:type" view={home} />
 			<Route path="/comments/:id" view={comments} />
 		</Router>
 		{model.isBusy && <Loading />}
@@ -54,13 +54,6 @@ const Router = props => {
 	const match = props.children.find(matchRoute);
 
 	if (match) {
-		if (match.forward) {
-			history.pushState(
-				{route: match.forward},
-				match.forward,
-				match.forward
-			);
-		}
 		return match.view(props.model);
 	} else {
 		// Not Found?
@@ -69,16 +62,12 @@ const Router = props => {
 
 function matchRoute(route) {
 	const currentPath = window.location.pathname;
+
 	if (route.exact) {
-		return currentPath === route.path || currentPath === route.forward;
+		return currentPath === route.path;
 	}
 
-	let partial = currentPath.match(/[^\/]+/g)[0];
-
-	return (
-		partial === route.path.match(/[^\/]+/g)[0] ||
-		partial === (route.forward && route.forward.match(/[^\/]+/g)[0])
-	);
+	return currentPath.match(/[^\/]+/g)[0] === route.path.match(/[^\/]+/g)[0];
 }
 
 const Route = props => props;
@@ -134,7 +123,7 @@ const Article = props => (
 const comments = model => (
 	<section class="section">
 		<div class="container">
-			<h2 class="title">Comments go here</h2>
+			<h2 class="title">Comments for post {model.route.id}</h2>
 		</div>
 	</section>
 );
