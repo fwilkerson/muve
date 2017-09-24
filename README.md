@@ -16,7 +16,7 @@ const model = {
 const {dispatch, getModel} = dispatcher(model);
 
 function updateCounter(value) {
-	// getModel can be used to check it's current state
+	// getModel can be used to check the model's current values
 	if (value < 0 && getModel().counter < 1) return;
 
 	// dispatch is used to update the model
