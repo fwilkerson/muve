@@ -66,7 +66,9 @@ const Todo = ({id, text, completed}) => (
 
 /* UPDATE */
 
-const dispatch = dispatcher(model, (type, slice) => console.log(type, slice));
+const {dispatch, getModel} = dispatcher(model, (type, piece) => {
+	console.log(type, piece, getModel());
+});
 
 function updateTodo(value) {
 	dispatch(() => ({todo: value}), 'UPDATE_TODO');

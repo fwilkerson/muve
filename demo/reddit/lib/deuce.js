@@ -39,9 +39,8 @@ function createNode(vnode) {
 
 	const node = document.createElement(vnode.type);
 
-	vnode.children = [].concat(vnode.children || []);
-	vnode.children.forEach(c => c && node.appendChild(createNode(c)));
-	Object.keys(vnode.attributes || {}).forEach(k =>
+	vnode.children.forEach(c => node.appendChild(createNode(c)));
+	Object.keys(vnode.attributes).forEach(k =>
 		setAttribute(node, k, vnode.attributes[k])
 	);
 
@@ -65,7 +64,7 @@ function patch(node, curr, prev, index) {
 		node.replaceChild(createNode(curr), child);
 	} else if (curr.type) {
 		patchAttributes(child, curr.attributes, prev.attributes);
-		curr.children = [].concat(curr.children || []);
+		curr.children = [].concat(curr.children);
 		const length = Math.max(curr.children.length, prev.children.length);
 		for (let i = 0; i < length; i++) {
 			patch(child, curr.children[i], prev.children[i], i);
@@ -74,8 +73,6 @@ function patch(node, curr, prev, index) {
 }
 
 function patchAttributes(node, curr, prev) {
-	curr = curr || {};
-	prev = prev || {};
 	const attr = Object.assign({}, prev, curr);
 	Object.keys(attr).forEach(k => setAttribute(node, k, curr[k], prev[k]));
 }
@@ -104,7 +101,7 @@ function dispatcher(model, subscriber) {
 			emitter.emit(DISPATCH, model);
 			if (subscriber && name) subscriber(name, piece);
 		},
-		getModel: () => model
+		getModel: () => Object.assign({}, model)
 	};
 }
 
@@ -134,5 +131,5 @@ function h(type, attributes, ...args) {
 	} else return {type, attributes, children};
 }
 
-export {dispatcher, h};
+export { dispatcher, h };
 export default deuce;

@@ -95,7 +95,9 @@ const Article = props => (
 		<div class="media-content">
 			<div class="content">
 				<p>
-					<a>{props.title}</a>
+					<a href={props.url} target="_blank">
+						{props.title}
+					</a>
 					<br />
 					<small class="is-size-7">
 						submitted on&nbsp;
