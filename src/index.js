@@ -18,12 +18,11 @@ function deuce(view, init, target) {
 }
 
 export function dispatcher(model, subscriber) {
-	let piece;
 	return {
 		dispatch: (update, name) => {
-			model = Object.assign({}, model, (piece = update(model)));
+			model = Object.assign({}, model, update);
 			emitter.emit(DISPATCH, model);
-			if (subscriber && name) subscriber(name, piece);
+			if (subscriber && name) subscriber(name, update);
 		},
 		getModel: () => Object.assign({}, model)
 	};

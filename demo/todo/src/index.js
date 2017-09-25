@@ -1,4 +1,4 @@
-import deuce, {dispatcher, h} from '../lib/deuce';
+import deuce, {dispatcher, h} from '../../../dist/deuce';
 
 /* MODEL */
 
@@ -66,41 +66,43 @@ const Todo = ({id, text, completed}) => (
 
 /* UPDATE */
 
-const {dispatch, getModel} = dispatcher(model, (type, piece) => {
-	console.log(type, piece, getModel());
+const {dispatch, getModel} = dispatcher(model, (type, update) => {
+	console.log(type, update, getModel());
 });
 
 function updateTodo(value) {
-	dispatch(() => ({todo: value}), 'UPDATE_TODO');
+	dispatch({todo: value});
 }
 
 let iterator = 1;
 
 function addTodo(value) {
+	const {todos} = getModel();
 	iterator += 1;
-	dispatch(({todos}) => ({
+	dispatch({
 		todo: '',
 		todos: [...todos, {id: iterator, text: value, completed: false}]
-	}));
+	});
 }
 
 function deleteTodo(id) {
-	dispatch(({todos}) => ({todos: todos.filter(todo => todo.id !== id)}));
+	const {todos} = getModel();
+	dispatch({todos: todos.filter(todo => todo.id !== id)});
 }
 
 function toggleTodo(id) {
-	dispatch(model => ({
-		todos: model.todos.map(
-			todo =>
-				todo.id === id
-					? Object.assign({}, todo, {completed: !todo.completed})
-					: todo
-		)
-	}));
+	const {todos} = getModel();
+	dispatch({
+		todos: todos.map(todo => {
+			return todo.id === id
+				? Object.assign({}, todo, {completed: !todo.completed})
+				: todo;
+		})
+	});
 }
 
 function updateVisible(value) {
-	dispatch(() => ({visible: value}));
+	dispatch({visible: value});
 }
 
 /* UTILITIES */

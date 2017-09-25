@@ -16,11 +16,13 @@ const model = {
 const {dispatch, getModel} = dispatcher(model);
 
 function updateCounter(value) {
-	// getModel can be used to check the model's current values
-	if (value < 0 && getModel().counter < 1) return;
+	const {counter} = getModel();
 
-	// dispatch is used to update the model
-	dispatch(model => ({counter: model.counter + value}));
+	// Validate that the count can be changed
+	if (value < 0 && counter < 1) return;
+
+	// update the model with the new counter
+	dispatch({counter: counter + value});
 }
 
 // for simplicity we will update the counter every second

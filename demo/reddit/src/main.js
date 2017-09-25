@@ -1,4 +1,4 @@
-import deuce, {h} from '../lib/deuce';
+import deuce from '../../../dist/deuce';
 
 import {fetchArticles, model} from './model';
 import view from './view';
