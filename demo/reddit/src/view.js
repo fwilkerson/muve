@@ -1,4 +1,4 @@
-import {h} from '../lib/deuce';
+import {h} from '../../../dist/deuce';
 
 import {category, goToComments, registerRouter, updateType} from './model.js';
 

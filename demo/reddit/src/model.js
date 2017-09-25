@@ -1,4 +1,4 @@
-import {dispatcher} from '../lib/deuce';
+import {dispatcher} from '../../../dist/deuce';
 
 import service from './service';
 
@@ -20,19 +20,17 @@ export const model = {
 const {dispatch, getModel} = dispatcher(model, logger);
 
 export function fetchArticles(type) {
-	dispatch(() => ({isBusy: true}));
+	dispatch({isBusy: true});
 	service
 		.get('r/javascript', type)
-		.then(articles => dispatch(() => ({articles, isBusy: false})));
+		.then(articles => dispatch({articles, isBusy: false}));
 }
 
 export function updateType(type) {
 	const model = getModel();
-	dispatch(() => {
-		const route = {path: '/type', type};
-		history.pushState(route, `/type/${type}`, `/type/${type}`);
-		return {type, route};
-	});
+	const route = {path: '/type', type};
+	history.pushState(route, `/type/${type}`, `/type/${type}`);
+	dispatch({type, route});
 	if (model.type !== type || model.articles.length === 0) {
 		fetchArticles(type);
 	}
@@ -41,11 +39,11 @@ export function updateType(type) {
 export function goToComments(id) {
 	const route = {path: '/comments', id};
 	history.pushState(route, `/comments/${id}`, `/comments/${id}`);
-	dispatch(() => ({route}));
+	dispatch({route});
 }
 
 export function registerRouter(event) {
-	dispatch(() => ({route: event.state || {path: window.location.pathname}}));
+	dispatch({route: event.state || {path: window.location.pathname}});
 }
 
 function getInitialRoute() {

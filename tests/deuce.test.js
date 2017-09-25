@@ -19,9 +19,15 @@ test('deuce renders without state', t => {
 	t.end();
 });
 
-const {dispatch} = dispatcher({count: 0});
-const increment = () => dispatch(model => ({count: model.count + 1}));
-const decrement = () => dispatch(model => ({count: model.count - 1}));
+const {dispatch, getModel} = dispatcher({count: 0});
+const increment = () => {
+	const {count} = getModel();
+	dispatch({count: count + 1});
+};
+const decrement = () => {
+	const {count} = getModel();
+	dispatch({count: count - 1});
+};
 
 const view = model => ({
 	type: 'div',
@@ -140,11 +146,13 @@ test('stress test', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.concat(data)};
-	const {dispatch} = dispatcher(model);
+	const {dispatch, getModel} = dispatcher(model);
 
 	const actions = {
-		updateResults: () =>
-			dispatch(state => ({results: state.results.concat(state.results)}))
+		updateResults: () => {
+			const {results} = getModel();
+			dispatch({results: results.concat(results)});
+		}
 	};
 	deuce(Listings(actions), model, document.querySelector('#root'));
 
@@ -173,13 +181,13 @@ test('remove/replace/append test', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.slice(0, 5)};
-	const {dispatch} = dispatcher(model, (name, piece) => {
+	const {dispatch, getModel} = dispatcher(model, (name, update) => {
 		t.equal(name, 'UPDATE_RESULTS', 'name is returned from subscribe');
-		t.ok(piece, 'piece of model being updated is returned');
+		t.ok(update, 'piece of model being updated is returned');
 	});
 	const actions = {
 		updateResults: () =>
-			dispatch(() => ({results: data.slice(3, 8)}), 'UPDATE_RESULTS')
+			dispatch({results: data.slice(3, 8)}, 'UPDATE_RESULTS')
 	};
 	deuce(Listings(actions), model, document.querySelector('#root'));
 
@@ -218,7 +226,7 @@ test('remove all and append', function(t) {
 	const model = {results: data.slice(0, 5)};
 	const {dispatch, getModel} = dispatcher(model);
 	const actions = {
-		updateResults: () => dispatch(() => ({results: data.slice(6, 15)}))
+		updateResults: () => dispatch({results: data.slice(6, 15)})
 	};
 	deuce(Listings(actions), model, document.querySelector('#root'));
 
