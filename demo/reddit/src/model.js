@@ -1,5 +1,6 @@
 import {dispatcher} from '../../../dist/deuce';
 
+import {getInitialRoute} from './router';
 import service from './service';
 
 export const category = {
@@ -8,7 +9,7 @@ export const category = {
 	controversial: 'controversial'
 };
 
-const initialRoute = getInitialRoute();
+const initialRoute = getInitialRoute(category.hot);
 
 export const model = {
 	articles: [],
@@ -42,22 +43,16 @@ export function goToComments(id) {
 	dispatch({route});
 }
 
-export function registerRouter(event) {
-	dispatch({route: event.state || {path: window.location.pathname}});
-}
-
-function getInitialRoute() {
-	if (history.state) return history.state;
-
-	if (window.location.pathname === '/') {
-		const route = {path: '/type', type: category.hot};
-		history.pushState(
-			route,
-			`/type/${category.hot}`,
-			`/type/${category.hot}`
-		);
-		return route;
-	} else return {path: window.localStorage.pathname};
+export function updateRoute(event) {
+	if (
+		event.state &&
+		event.state.type &&
+		event.state.type !== getModel().type
+	) {
+		updateType(event.state.type);
+	} else {
+		dispatch({route: event.state || {path: window.location.pathname}});
+	}
 }
 
 function logger(name, piece) {

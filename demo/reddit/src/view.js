@@ -1,11 +1,12 @@
 import {h} from '../../../dist/deuce';
 
-import {category, goToComments, registerRouter, updateType} from './model.js';
+import {category, goToComments, updateRoute, updateType} from './model';
+import {Router, Route} from './router';
 
 const view = model => (
 	<main>
 		<Header active={model.type} />
-		<Router model={model}>
+		<Router model={model} routeChanged={updateRoute}>
 			<Route path="/type/:type" view={home} />
 			<Route path="/comments/:id" view={comments} />
 		</Router>
@@ -45,32 +46,6 @@ const HeaderLink = props => (
 		{props.text}
 	</a>
 );
-
-const Router = props => {
-	if (!props.children) return; // Error?
-
-	if (!window.onpopstate) window.onpopstate = registerRouter;
-
-	const match = props.children.find(matchRoute);
-
-	if (match) {
-		return match.view(props.model);
-	} else {
-		// Not Found?
-	}
-};
-
-function matchRoute(route) {
-	const currentPath = window.location.pathname;
-
-	if (route.exact) {
-		return currentPath === route.path;
-	}
-
-	return currentPath.match(/[^\/]+/g)[0] === route.path.match(/[^\/]+/g)[0];
-}
-
-const Route = props => props;
 
 const home = model => (
 	<section class="section">
