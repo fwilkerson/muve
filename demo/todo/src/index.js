@@ -2,7 +2,7 @@ import deuce, {dispatcher, h} from '../../../dist/deuce';
 
 /* MODEL */
 
-let model = {
+const model = {
 	todo: '',
 	todos: [{id: 1, text: 'Write Documentation', completed: false}],
 	visible: 'All'
@@ -66,9 +66,7 @@ const Todo = ({id, text, completed}) => (
 
 /* UPDATE */
 
-const {dispatch, getModel} = dispatcher(model, (type, update) => {
-	console.log(type, update, getModel());
-});
+const {dispatch, getModel} = dispatcher(model);
 
 function updateTodo(value) {
 	dispatch({todo: value});
