@@ -1,7 +1,10 @@
 {
-	"name": "deuce",
-	"version": "1.0.0",
-	"main": "dist/deuce.js",
+	"name": "muve",
+	"version": "0.1.0",
+	"main": "dist/muve.cjs.js",
+	"jsnext:main": "dist/muve.js",
+	"module": "dist/muve.js",
+	"umd:main": "dist/muve.umd.js",
 	"license": "MIT",
 	"devDependencies": {
 		"@std/esm": "^0.10.1",
@@ -48,7 +51,7 @@
 	},
 	"size-limit": [
 		{
-			"path": "./dist/deuce.js",
+			"path": "./dist/muve.js",
 			"limit": "1 KB"
 		}
 	]

@@ -1,4 +1,4 @@
-import deuce, {dispatcher, h} from '../../../dist/deuce';
+import muve, {dispatcher, h} from '../../../dist/muve';
 
 /* MODEL */
 
@@ -12,7 +12,7 @@ const model = {
 
 const view = model => (
 	<Layout>
-		<h2 class="title">Deuce Todos</h2>
+		<h2 class="title">Muve Todos</h2>
 		<input
 			type="text"
 			class="input is-large"
@@ -119,4 +119,4 @@ function getVisibleTodos(model) {
 
 /* RENDER */
 
-deuce(view, model, document.getElementById('root'));
+muve(view, model, document.getElementById('root'));

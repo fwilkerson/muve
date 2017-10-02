@@ -3,7 +3,7 @@ import patch from './patch';
 
 const DISPATCH = 'DISPATCH';
 
-function deuce(view, init, target) {
+function muve(view, init, target) {
 	target = target || document.body;
 	let prev;
 
@@ -54,4 +54,4 @@ export function h(type, attributes, ...args) {
 	} else return {type, attributes, children};
 }
 
-export default deuce;
+export default muve;

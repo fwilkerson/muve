@@ -1,13 +1,13 @@
-# Deuce
+# Muve
 
-Deuce is a continuation of the work I did on [franken-app](https://github.com/fwilkerson/franken-app). The main differences between the two is Deuce supports JSX and the event system no longer requires an id be assigned to an element with an event. Deuce is also smaller and faster than franken-app thanks to a rewrite of the virtual dom and decoupling some concepts.
+Muve is a continuation of the work I did on [franken-app](https://github.com/fwilkerson/franken-app). The main differences between the two is Muve supports JSX and the event system no longer requires an id be assigned to an element with an event. Muve is also smaller and faster than franken-app thanks to a rewrite of the virtual dom and decoupling some concepts.
 
 ## Quick Start
 
 ```javascript
-import deuce, {h, dispatcher} from 'deuce';
+import muve, {h, dispatcher} from 'muve';
 
-// Deuce starts with a model
+// Muve starts with a model
 const model = {
 	counter: 0
 };
@@ -33,8 +33,8 @@ function view(model) {
 	return <h2>{model.counter}</h2>;
 }
 
-// Finally give the view, model, and target element to deuce
-deuce(view, model, document.getElementById('root'));
+// Finally give the view, model, and target element to muve
+muve(view, model, document.getElementById('root'));
 ```
 
 For more in depth examples check out the demo folder.

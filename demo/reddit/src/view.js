@@ -1,4 +1,4 @@
-import {h} from '../../../dist/deuce';
+import {h} from '../../../dist/muve';
 
 import {category, goToComments, updateRoute, updateType} from './model';
 import {Router, Route} from './router';

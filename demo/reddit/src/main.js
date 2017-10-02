@@ -1,9 +1,9 @@
-import deuce from '../../../dist/deuce';
+import muve from '../../../dist/muve';
 
 import {fetchArticles, model} from './model';
 import view from './view';
 
-deuce(view, model, document.getElementById('root'));
+muve(view, model, document.getElementById('root'));
 
 if (model.route.path === '/type') {
 	fetchArticles(model.type);
