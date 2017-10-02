@@ -1,4 +1,4 @@
-import {dispatcher} from '../../../dist/muve';
+import {dispatcher} from 'muve';
 
 import {getInitialRoute} from './router';
 import service from './service';

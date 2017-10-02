@@ -1,4 +1,4 @@
-import muve, {dispatcher, h} from '../../../dist/muve';
+import muve, {dispatcher, h} from 'muve';
 
 /* MODEL */
 

@@ -15,7 +15,24 @@
 		"start": "webpack-dev-server --open"
 	},
 	"babel": {
-		"presets": [["es2015", {"modules": false}]],
-		"plugins": [["transform-react-jsx", {"pragma": "h"}]]
+		"presets": [
+			[
+				"es2015",
+				{
+					"modules": false
+				}
+			]
+		],
+		"plugins": [
+			[
+				"transform-react-jsx",
+				{
+					"pragma": "h"
+				}
+			]
+		]
+	},
+	"dependencies": {
+		"muve": "^0.1.0"
 	}
 }
