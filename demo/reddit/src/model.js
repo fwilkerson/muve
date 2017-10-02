@@ -23,7 +23,7 @@ const {dispatch, getModel} = dispatcher(model, logger);
 export function fetchArticles(type) {
 	dispatch({isBusy: true});
 	service
-		.get('r/javascript', type)
+		.querySubreddit('r/javascript', type)
 		.then(articles => dispatch({articles, isBusy: false}));
 }
 
@@ -44,10 +44,11 @@ export function goToComments(id) {
 }
 
 export function updateRoute(event) {
+	const {type, articles} = getModel();
 	if (
 		event.state &&
 		event.state.type &&
-		event.state.type !== getModel().type
+		(event.state.type !== type || articles.length === 0)
 	) {
 		updateType(event.state.type);
 	} else {
