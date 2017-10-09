@@ -1,18 +1,20 @@
 # Muve
 
-Muve is a continuation of the work I did on [franken-app](https://github.com/fwilkerson/franken-app). The main differences between the two is Muve supports JSX and the event system no longer requires an id be assigned to an element with an event. Muve is also smaller and faster than franken-app thanks to a rewrite of the virtual dom and decoupling some concepts.
+Muve is a micro library for building interactive javascript applications. Muve is built around one concept, changes to the model update the view. There are three parts to an application built with Muve; A model to represent the state of your application, functions that serve as an api for updating your model, and a view to describe that model.
 
 ## Quick Start
+
+`npm i --save muve` &nbsp; or &nbsp; `yarn add muve`
 
 ```javascript
 import muve, {h, dispatcher} from 'muve';
 
-// Muve starts with a model
+// The model
 const model = {
 	counter: 0
 };
 
-// dispatcher creates functions for interacting with the model
+// Dispatcher creates helpers for checking & changing the model.
 const {dispatch, getModel} = dispatcher(model);
 
 function updateCounter(value) {
@@ -25,9 +27,6 @@ function updateCounter(value) {
 	dispatch({counter: counter + value});
 }
 
-// for simplicity we will update the counter every second
-setInterval(() => updateCounter(1), 1000);
-
 // The view function represents the model
 function view(model) {
 	return <h2>{model.counter}</h2>;
@@ -35,6 +34,7 @@ function view(model) {
 
 // Finally give the view, model, and target element to muve
 muve(view, model, document.getElementById('root'));
-```
 
-For more in depth examples check out the demo folder.
+// for simplicity we will update the counter every second
+setInterval(() => updateCounter(1), 1000);
+```
