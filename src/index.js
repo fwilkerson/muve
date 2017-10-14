@@ -15,13 +15,13 @@ function muve(view, init, target) {
 	patch(target, prev);
 }
 
-export function interact(model, subscriber) {
+export function interact(model, log) {
 	return {
 		getModel: () => model,
 		setModel: (update, name) => {
 			model = Object.assign({}, model, update);
 			render(model);
-			if (subscriber && name) subscriber(name, update);
+			if (log && name) log(name, update);
 		}
 	};
 }
