@@ -1,7 +1,22 @@
-import {h} from 'muve';
+import {h} from '../../../dist/muve.js';
 
 import {category, goToComments, updateRoute, updateType} from './model';
 import {Router, Route} from './router';
+
+const styles = {
+	displayFlex: {
+		display: 'flex'
+	},
+	loadingContainer: {
+		position: 'fixed',
+		bottom: '2rem',
+		right: '2rem',
+		zIndex: 1
+	},
+	marginAuto: {
+		margin: 'auto'
+	}
+};
 
 const view = model => (
 	<main>
@@ -15,7 +30,7 @@ const view = model => (
 );
 
 const Loading = props => (
-	<div style="position: fixed; bottom: 2rem; right: 2rem; z-index: 1">
+	<div style={styles.loadingContainer}>
 		<span class="icon is-large has-text-primary">
 			<i class="fa fa-spinner fa-3x fa-pulse" />
 		</span>
@@ -24,8 +39,8 @@ const Loading = props => (
 
 const Header = props => (
 	<nav class="navbar has-shadow">
-		<div class="container" style="display: flex;">
-			<div class="navbar-tabs" style="margin: auto;">
+		<div class="container" style={styles.displayFlex}>
+			<div class="navbar-tabs" style={styles.marginAuto}>
 				{Object.keys(category).map(key => (
 					<HeaderLink active={props.active} text={key} />
 				))}

@@ -1,4 +1,4 @@
-import muve, {dispatcher, h} from 'muve';
+import muve, {h, interact} from '../../../dist/muve.js';
 
 /* MODEL */
 
@@ -25,7 +25,7 @@ const view = model => (
 			<FilterLink text="Incomplete" visible={model.visible} />
 			<FilterLink text="Complete" visible={model.visible} />
 		</div>
-		<hr style="background-color: transparent" />
+		<hr style={{backgroundColor: 'transparent'}} />
 		{getVisibleTodos(model).map(todo => <Todo {...todo} />)}
 	</Layout>
 );
@@ -44,7 +44,7 @@ const Layout = ({children}) => (
 const FilterLink = ({text, visible}) => (
 	<a
 		class={visible === text ? 'has-text-weight-bold' : ''}
-		style="margin: 0 0.25em;"
+		style={{margin: '0 0.25em'}}
 		onClick={() => updateVisible(text)}
 	>
 		{text}
@@ -56,7 +56,7 @@ const Todo = ({id, text, completed}) => (
 		<button class="delete" onClick={() => deleteTodo(id)} />
 		<a
 			class="is-size-5"
-			style={`text-decoration: ${completed ? 'line-through' : 'none'}`}
+			style={{textDecoration: completed ? 'line-through' : 'none'}}
 			onClick={() => toggleTodo(id)}
 		>
 			{text}
@@ -66,10 +66,10 @@ const Todo = ({id, text, completed}) => (
 
 /* UPDATE */
 
-const {dispatch, getModel} = dispatcher(model);
+const {getModel, setModel} = interact(model);
 
 function updateTodo(value) {
-	dispatch({todo: value});
+	setModel({todo: value});
 }
 
 let iterator = 1;
@@ -77,20 +77,20 @@ let iterator = 1;
 function addTodo(value) {
 	const {todos} = getModel();
 	iterator += 1;
-	dispatch({
+	setModel({
 		todo: '',
-		todos: [...todos, {id: iterator, text: value, completed: false}]
+		todos: todos.concat({id: iterator, text: value, completed: false})
 	});
 }
 
 function deleteTodo(id) {
 	const {todos} = getModel();
-	dispatch({todos: todos.filter(todo => todo.id !== id)});
+	setModel({todos: todos.filter(todo => todo.id !== id)});
 }
 
 function toggleTodo(id) {
 	const {todos} = getModel();
-	dispatch({
+	setModel({
 		todos: todos.map(todo => {
 			return todo.id === id
 				? Object.assign({}, todo, {completed: !todo.completed})
@@ -100,7 +100,7 @@ function toggleTodo(id) {
 }
 
 function updateVisible(value) {
-	dispatch({visible: value});
+	setModel({visible: value});
 }
 
 /* UTILITIES */

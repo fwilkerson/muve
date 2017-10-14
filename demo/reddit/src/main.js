@@ -1,4 +1,4 @@
-import muve from 'muve';
+import muve from '../../../dist/muve.js';
 
 import {fetchArticles, model} from './model';
 import view from './view';

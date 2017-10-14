@@ -52,6 +52,60 @@ test('can add child <em>!</em> to h2', t => {
 	t.end();
 });
 
+test('can remove child <em>!</em> from h2', t => {
+	const dispose = jsdom(`<div id="root"></div>`);
+	const node = document.querySelector('#root');
+	const vnode = {
+		type: 'div',
+		attributes: {},
+		children: [
+			{
+				type: 'h2',
+				attributes: {},
+				children: [
+					'Hello, World',
+					{type: 'em', attributes: {}, children: ['!']}
+				]
+			}
+		]
+	};
+	const update = {
+		type: 'div',
+		attributes: {},
+		children: [
+			{
+				type: 'h2',
+				children: ['Hello, World']
+			}
+		]
+	};
+
+	patch(node, vnode);
+
+	t.equal(
+		document.querySelector('#root div>h2>em').innerHTML,
+		'!',
+		'vnode rendered'
+	);
+
+	patch(node, update, vnode);
+
+	t.equal(
+		document.querySelector('#root div>h2').innerHTML,
+		'Hello, World',
+		'patch was rendered'
+	);
+
+	t.equal(
+		document.querySelector('#root div>h2').childNodes[0].textContent,
+		'Hello, World',
+		'patch was not destructive'
+	);
+
+	dispose();
+	t.end();
+});
+
 test('can replace h2 with ul', t => {
 	const dispose = jsdom(`<div id="root"></div>`);
 	const node = document.querySelector('#root');

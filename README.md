@@ -7,15 +7,13 @@ Muve is a micro library for building interactive javascript applications. Muve i
 `npm i --save muve` &nbsp; or &nbsp; `yarn add muve`
 
 ```javascript
-import muve, {h, dispatcher} from 'muve';
+import muve, {h, interact} from 'muve';
 
 // The model
-const model = {
-	counter: 0
-};
+const model = {counter: 0};
 
-// Dispatcher creates helpers for checking & changing the model.
-const {dispatch, getModel} = dispatcher(model);
+// interact creates helpers for checking & changing the model.
+const {getModel, setModel} = interact(model);
 
 function updateCounter(value) {
 	const {counter} = getModel();
@@ -24,7 +22,7 @@ function updateCounter(value) {
 	if (value < 0 && counter < 1) return;
 
 	// update the model with the new counter
-	dispatch({counter: counter + value});
+	setModel({counter: counter + value});
 }
 
 // The view function represents the model

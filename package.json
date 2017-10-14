@@ -32,7 +32,7 @@
 	"jshintConfig": {
 		"browser": true,
 		"esversion": 6,
-		"maxcomplexity": 10,
+		"maxcomplexity": 11,
 		"undef": true,
 		"unused": true
 	},

@@ -1,13 +1,17 @@
 import test from 'tape';
 import jsdom from 'jsdom-global';
 
-import muve, {dispatcher} from '../src';
+import muve, {interact} from '../src';
 import data from './data/listings.json';
 
 test('muve renders without state', t => {
 	const dispose = jsdom();
 
-	muve(() => ({type: 'h2', attributes: {}, children: ['Hello, World']}));
+	muve(
+		() => ({type: 'h2', attributes: {}, children: ['Hello, World']}),
+		{},
+		document.body
+	);
 
 	t.equal(
 		document.querySelector('h2').innerHTML,
@@ -19,14 +23,14 @@ test('muve renders without state', t => {
 	t.end();
 });
 
-const {dispatch, getModel} = dispatcher({count: 0});
+const {getModel, setModel} = interact({count: 0});
 const increment = () => {
 	const {count} = getModel();
-	dispatch({count: count + 1});
+	setModel({count: count + 1});
 };
 const decrement = () => {
 	const {count} = getModel();
-	dispatch({count: count - 1});
+	setModel({count: count - 1});
 };
 
 const view = model => ({
@@ -52,7 +56,7 @@ test('counter', t => {
 	const event = document.createEvent('HTMLEvents');
 	event.initEvent('click', true, true);
 
-	muve(view, {count: 0});
+	muve(view, {count: 0}, document.body);
 
 	const buttons = document.querySelectorAll('button');
 	const counter = document.querySelector('h2');
@@ -80,18 +84,18 @@ const Listings = actions => model => {
 function Actions(model, actions) {
 	return {
 		type: 'div',
-		attributes: {style: 'margin: 1em; text-align: right;'},
+		attributes: {style: {margin: '1em', textAlign: 'right'}},
 		children: [
 			{
 				type: 'button',
-				attributes: {id: 'btnMore', style: 'margin: 0 0.5em;'},
+				attributes: {id: 'btnMore', style: {margin: '0 0.5em'}},
 				children: ['More']
 			},
 			{
 				type: 'button',
 				attributes: {
 					id: 'btnRestart',
-					style: 'margin: 0 0.5em;',
+					style: {margin: '0 0.5em'},
 					onClick: actions.updateResults
 				},
 				children: ['Restart']
@@ -103,7 +107,7 @@ function Actions(model, actions) {
 function List(model) {
 	return {
 		type: 'ul',
-		attributes: {style: 'list-style: none; margin: 1em; padding: 0;'},
+		attributes: {style: {listStyle: 'none', margin: '1em', padding: 0}},
 		children: model.results.map(Link)
 	};
 }
@@ -112,7 +116,11 @@ function Link(data) {
 	return {
 		type: 'li',
 		attributes: {
-			style: 'margin: 0.5em 0; padding: 0.5em; border: 0.5px solid #777;'
+			style: {
+				margin: '0.5em 0',
+				padding: '0.5em',
+				border: '0.5px solid #777'
+			}
 		},
 		children: [
 			{
@@ -130,12 +138,12 @@ function SubLink({created, subreddit}) {
 	createDate.setSeconds(created);
 	return {
 		type: 'div',
-		attributes: {style: 'margin-top: 0.25em;'},
+		attributes: {style: {marginTop: '0.25em'}},
 		children: [
 			`r/${subreddit}`,
 			{
 				type: 'span',
-				attributes: {style: 'margin-left: 0.5em;'},
+				attributes: {style: {marginLeft: '0.5em'}},
 				children: [`(${createDate.toLocaleDateString()})`]
 			}
 		]
@@ -146,12 +154,12 @@ test('stress test', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.concat(data)};
-	const {dispatch, getModel} = dispatcher(model);
+	const {getModel, setModel} = interact(model);
 
 	const actions = {
 		updateResults: () => {
 			const {results} = getModel();
-			dispatch({results: results.concat(results)});
+			setModel({results: results.concat(results)});
 		}
 	};
 	muve(Listings(actions), model, document.querySelector('#root'));
@@ -181,13 +189,13 @@ test('remove/replace/append test', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.slice(0, 5)};
-	const {dispatch, getModel} = dispatcher(model, (name, update) => {
+	const {getModel, setModel} = interact(model, (name, update) => {
 		t.equal(name, 'UPDATE_RESULTS', 'name is returned from subscribe');
 		t.ok(update, 'piece of model being updated is returned');
 	});
 	const actions = {
 		updateResults: () =>
-			dispatch({results: data.slice(3, 8)}, 'UPDATE_RESULTS')
+			setModel({results: data.slice(3, 8)}, 'UPDATE_RESULTS')
 	};
 	muve(Listings(actions), model, document.querySelector('#root'));
 
@@ -224,9 +232,9 @@ test('remove all and append', function(t) {
 	const dispose = jsdom(`<div id='root'></div>`);
 
 	const model = {results: data.slice(0, 5)};
-	const {dispatch, getModel} = dispatcher(model);
+	const {getModel, setModel} = interact(model);
 	const actions = {
-		updateResults: () => dispatch({results: data.slice(6, 15)})
+		updateResults: () => setModel({results: data.slice(6, 15)})
 	};
 	muve(Listings(actions), model, document.querySelector('#root'));
 
