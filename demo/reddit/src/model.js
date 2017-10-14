@@ -1,4 +1,4 @@
-import {dispatcher} from '../../../dist/muve';
+import {interact} from '../../../dist/muve.js';
 
 import {getInitialRoute} from './router';
 import service from './service';
@@ -18,20 +18,20 @@ export const model = {
 	route: initialRoute
 };
 
-const {dispatch, getModel} = dispatcher(model, logger);
+const {getModel, setModel} = interact(model, logger);
 
 export function fetchArticles(type) {
-	dispatch({isBusy: true});
-	service
-		.querySubreddit('r/javascript', type)
-		.then(articles => dispatch({articles, isBusy: false}));
+	setModel({isBusy: true});
+	service.querySubreddit('r/javascript', type).then(articles => {
+		setModel({articles, isBusy: false}, 'RECEIVE_ARTICLES');
+	});
 }
 
 export function updateType(type) {
 	const model = getModel();
 	const route = {path: '/type', type};
 	history.pushState(route, `/type/${type}`, `/type/${type}`);
-	dispatch({type, route});
+	setModel({type, route});
 	if (model.type !== type || model.articles.length === 0) {
 		fetchArticles(type);
 	}
@@ -40,7 +40,7 @@ export function updateType(type) {
 export function goToComments(id) {
 	const route = {path: '/comments', id};
 	history.pushState(route, `/comments/${id}`, `/comments/${id}`);
-	dispatch({route});
+	setModel({route});
 }
 
 export function updateRoute(event) {
@@ -52,7 +52,7 @@ export function updateRoute(event) {
 	) {
 		updateType(event.state.type);
 	} else {
-		dispatch({route: event.state || {path: window.location.pathname}});
+		setModel({route: event.state || {path: window.location.pathname}});
 	}
 }
 

@@ -1,5 +1,5 @@
 function setAttribute(node, name, curr, prev) {
-	if (name[0] == 'o' && name[1] == 'n') {
+	if (name.slice(0, 2) == 'on') {
 		name = name.toLowerCase().substring(2);
 		if (curr) {
 			if (!prev) node.addEventListener(name, delegateEvent);
@@ -8,6 +8,13 @@ function setAttribute(node, name, curr, prev) {
 		}
 		node._listeners = node._listeners || {};
 		node._listeners[name] = curr;
+	} else if (name == 'style') {
+		if (curr) {
+			const styles = Object.assign({}, prev, curr);
+			for (let i in styles) {
+				node.style[i] = curr[i] || '';
+			}
+		} else node.style.cssText = '';
 	} else {
 		try {
 			node[name] = curr;

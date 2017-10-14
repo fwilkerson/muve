@@ -1,30 +1,28 @@
-import emitter from './emitter';
 import patch from './patch';
 
-const DISPATCH = 'DISPATCH';
+let render;
 
 function muve(view, init, target) {
-	target = target || document.body;
 	let prev;
 
-	emitter.on(DISPATCH, model => {
+	render = model => {
 		let temp = view(model);
 		patch(target, temp, prev);
 		prev = temp;
-	});
+	};
 
-	prev = view(init || {});
+	prev = view(init);
 	patch(target, prev);
 }
 
-export function dispatcher(model, subscriber) {
+export function interact(model, log) {
 	return {
-		dispatch: (update, name) => {
+		getModel: () => model,
+		setModel: (update, name) => {
 			model = Object.assign({}, model, update);
-			emitter.emit(DISPATCH, model);
-			if (subscriber && name) subscriber(name, update);
-		},
-		getModel: () => Object.assign({}, model)
+			render(model);
+			if (log && name) log(name, update);
+		}
 	};
 }
 
