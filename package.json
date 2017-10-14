@@ -6,6 +6,7 @@
 	"module": "dist/muve.js",
 	"umd:main": "dist/muve.umd.js",
 	"license": "MIT",
+	"repository": "https://github.com/fwilkerson/muve.git",
 	"devDependencies": {
 		"@std/esm": "^0.10.1",
 		"jsdom": "^11.2.0",
