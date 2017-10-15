@@ -1,4 +1,5 @@
-import muve, {h, interact} from '../../../dist/muve.js';
+import muve, {h, interact} from 'muve';
+// import muve, {h, interact} from '../../../dist/muve.js';
 
 /* MODEL */
 

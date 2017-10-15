@@ -1,11 +1,12 @@
 {
 	"name": "muve",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"main": "dist/muve.cjs.js",
 	"jsnext:main": "dist/muve.js",
 	"module": "dist/muve.js",
 	"umd:main": "dist/muve.umd.js",
 	"license": "MIT",
+	"author": "Frank A. Wilkerson",
 	"repository": "https://github.com/fwilkerson/muve.git",
 	"devDependencies": {
 		"@std/esm": "^0.10.1",

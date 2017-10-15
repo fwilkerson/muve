@@ -2194,9 +2194,9 @@ multicast-dns@^6.0.1:
     dns-packet "^1.0.1"
     thunky "^0.1.0"
 
-muve@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/muve/-/muve-0.1.0.tgz#997c9e523e6b673514870b3c096cbf9c7afc911f"
+muve@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/muve/-/muve-1.0.0.tgz#2391b83e45b6aee7df355def6627249e6547bc29"
 
 nan@^2.3.0:
   version "2.7.0"

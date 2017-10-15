@@ -1,4 +1,5 @@
-import {interact} from '../../../dist/muve.js';
+import {interact} from 'muve';
+// import {interact} from '../../../dist/muve.js';
 
 import {getInitialRoute} from './router';
 import service from './service';
