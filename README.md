@@ -4,6 +4,14 @@ Muve is a micro library for building interactive javascript applications. Muve i
 
 <br/>
 
+## Demos
+
+A progressive web app that features routing, code-splitting, and gives an idea of how to structure larger apps.
+
+[muve-forward](https://github.com/fwilkerson/muve-forward)
+
+<br/>
+
 ## Quick Start
 
 `npm i --save muve` &nbsp; or &nbsp; `yarn add muve`
