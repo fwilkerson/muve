@@ -1,6 +1,6 @@
 import patch from './patch';
 
-let render;
+let render = () => {};
 
 function muve(view, init, target) {
 	let prev;
