@@ -1,5 +1,4 @@
 import {h} from 'muve';
-// import {h} from '../../../dist/muve.js';
 
 import {category, goToComments, updateRoute, updateType} from './model';
 import {Router, Route} from './router';
