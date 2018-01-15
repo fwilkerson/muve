@@ -23,17 +23,3 @@ function matchRoute(route) {
 
 	return currentPath.match(/[^\/]+/g)[0] === route.path.match(/[^\/]+/g)[0];
 }
-
-export function getInitialRoute(defaultCategory) {
-	if (history.state) return history.state;
-
-	if (window.location.pathname === '/') {
-		const route = {path: '/type', type: defaultCategory};
-		history.pushState(
-			route,
-			`/type/${defaultCategory}`,
-			`/type/${defaultCategory}`
-		);
-		return route;
-	} else return {path: window.localStorage.pathname};
-}

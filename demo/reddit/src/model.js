@@ -1,7 +1,5 @@
 import {interact} from 'muve';
-// import {interact} from '../../../dist/muve.js';
 
-import {getInitialRoute} from './router';
 import service from './service';
 
 export const category = {
@@ -24,7 +22,7 @@ const {getModel, setModel} = interact(model, logger);
 export function fetchArticles(type) {
 	setModel({isBusy: true});
 	service.querySubreddit('r/javascript', type).then(articles => {
-		setModel({articles, isBusy: false}, 'RECEIVE_ARTICLES');
+		setModel({articles, isBusy: false});
 	});
 }
 
@@ -57,6 +55,20 @@ export function updateRoute(event) {
 	}
 }
 
+function getInitialRoute(defaultCategory) {
+	if (history.state) return history.state;
+
+	if (window.location.pathname === '/') {
+		const route = {path: '/type', type: defaultCategory};
+		history.pushState(
+			route,
+			`/type/${defaultCategory}`,
+			`/type/${defaultCategory}`
+		);
+		return route;
+	} else return {path: window.location.pathname};
+}
+
 function logger(name, piece) {
-	console.log(name, piece, getModel());
+	console.log(name, piece);
 }
