@@ -1,6 +1,6 @@
 {
 	"name": "muve",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "dist/muve.cjs.js",
 	"jsnext:main": "dist/muve.js",
 	"module": "dist/muve.js",
