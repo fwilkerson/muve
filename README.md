@@ -56,7 +56,7 @@ For more in depth examples be sure to look at the demos.
 
 In an attempt to keep things simple, muve exposes only three functions one of which is to enable the use of jsx.
 
-### muve(view, init, target) 
+### muve(view, init, target, hydrate) 
 
 Initializes a muve application, this performs some setup and does the initial render of the view.
 
@@ -67,6 +67,7 @@ Initializes a muve application, this performs some setup and does the initial re
 | view | Function | The entry point of your application | &nbsp; |
 | init | Object | The initial model of your application | &nbsp; |
 | target | HTMLElement | The element muve should attach itself to | &nbsp; |
+| hydrate | Boolean | Set to true if the page was server rendered | &nbsp; |
 
 #### Returns
 

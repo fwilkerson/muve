@@ -272,3 +272,36 @@ test('remove all and append', function(t) {
 	dispose();
 	t.end();
 });
+
+test('can hydrate a view', t => {
+	const dispose = jsdom('<div><a>click me</a></div>');
+
+	let clicked = false;
+
+	const view = model => ({
+		type: 'div',
+		attributes: {class: 'a-css-class'},
+		children: [
+			{
+				type: 'a',
+				attributes: {
+					onClick: () => {
+						clicked = true;
+					}
+				},
+				children: ['click me']
+			}
+		]
+	});
+
+	muve(view, {}, document.body, true);
+
+	const event = document.createEvent('HTMLEvents');
+	event.initEvent('click', true, true);
+
+	document.querySelector('div.a-css-class > a').dispatchEvent(event);
+
+	t.true(clicked, 'on click attribute was handled');
+	dispose();
+	t.end();
+});
