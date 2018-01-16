@@ -1,4 +1,5 @@
 import patch from './patch';
+import hydrateAttributes from './hydrateAttributes';
 
 let render = () => {};
 

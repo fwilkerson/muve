@@ -1,3 +1,5 @@
+import setAttribute from './setAttribute';
+
 function hydrateAttributes(node, vnode, index) {
 	if (typeof vnode === 'string') return;
 	const child = node.childNodes[index || 0];
