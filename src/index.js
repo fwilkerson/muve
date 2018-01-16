@@ -2,7 +2,7 @@ import patch from './patch';
 
 let render = () => {};
 
-function muve(view, init, target) {
+function muve(view, init, target, hydrate) {
 	let prev;
 
 	render = model => {
@@ -12,7 +12,9 @@ function muve(view, init, target) {
 	};
 
 	prev = view(init);
-	patch(target, prev);
+
+	if (hydrate) hydrateAttributes(target, prev);
+	else patch(target, prev);
 }
 
 export function interact(model, log) {

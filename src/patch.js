@@ -6,9 +6,9 @@ function patch(node, curr, prev, index) {
 		node.childNodes[index || 0] ||
 		node.childNodes[node.childNodes.length - 1];
 
-	if (!prev && curr) {
+	if (prev == null && curr != null) {
 		node.appendChild(createNode(curr));
-	} else if (!curr) {
+	} else if (curr == null) {
 		node.removeChild(child);
 	} else if (
 		typeof curr !== typeof prev ||
