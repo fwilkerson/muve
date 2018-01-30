@@ -4,6 +4,12 @@ Muve is a micro library for building interactive javascript applications. Muve i
 
 <br/>
 
+## Libraries
+
+[muve-router](https://github.com/fwilkerson/muve-router)
+
+<br />
+
 ## Demos
 
 A progressive web app that features routing, code-splitting, and gives an idea of how to structure larger apps.
