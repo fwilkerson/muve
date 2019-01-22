@@ -1,12 +1,23 @@
 {
   "name": "muve",
   "version": "2.0.0",
-  "main": "",
   "license": "MIT",
   "author": "Frank A. Wilkerson",
-  "repository": "https://github.com/fwilkerson/muve.git",
-  "devDependencies": {
-    "driven": "git+https://github.com/fwilkerson/driven.git",
-    "kleur": "^3.0.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fwilkerson/muve.git"
+  },
+  "scripts": {
+    "test": "serve lib -c ../serve.json"
+  },
+  "bugs": {
+    "url": "https://github.com/fwilkerson/muve/issues"
+  },
+  "homepage": "https://github.com/fwilkerson/muve#readme",
+  "main": "lib/muve.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [],
+  "description": "A micro library for building interactive js applications"
 }

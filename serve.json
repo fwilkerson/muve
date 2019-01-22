@@ -1,0 +1,9 @@
+{
+  "headers": [
+    {
+      "source": "**/*.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    }
+  ],
+  "rewrites": [{ "source": "**", "destination": "/test.html" }]
+}
